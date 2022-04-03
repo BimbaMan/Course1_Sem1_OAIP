@@ -1,0 +1,51 @@
+program Project2;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils,
+  Math;
+
+var
+ x, eps, f1, f21, f2, sum2, st1, st2 :double;
+ k, N, j, i :integer;
+begin
+    writeln('-------------------------------------------------------------------------');
+    writeln('|  X    |    f1      |   E=0.0001     |   E=0.00001    |   E=0.000001   |');
+    writeln('|       |            |----------------|----------------|----------------|');
+    writeln('|       |            |      f2(x)  | N|    f2(x)    |N |     f2(x)   |N |');
+    writeln('-------------------------------------------------------------------------');
+ x:=-0.6;
+ for i := 1 to 20 do
+  begin
+   f1:=0.5*arctan(x)*ln(1+x*x);
+   write('|',x:5:2,'  |',f1:12:7,'|');
+   eps:=0.001;
+   st1:=(-1)*(-1);
+   st2:=x*x*x;
+   f2:=0; f21:=0; k:=1; sum2:=0; N:=1;
+   for j := 1 to 3 do
+   begin
+    repeat
+     f2:=f21;
+     sum2:=sum2+1/(2*k-1)+1/(2*k);
+     f21:=f21+((st1*st2)/(2*k+1)*sum2);
+     st1:=st1*(-1);
+     st2:=st2*x*x;
+     k:=k+1;
+     N:=N+1;
+    until abs(f21-f2)<eps;
+    eps:=eps*0.1;
+    if length(inttostr(n))<=1 then
+     write(f2:10:7,'   |',n,' |')
+     else
+     write(f2:10:7,'   |',n,'|');
+   end;
+   writeln;
+   x:=x+0.05;
+   x:=round(x/0.00000001)*0.00000001;
+  end;
+readln;
+end.

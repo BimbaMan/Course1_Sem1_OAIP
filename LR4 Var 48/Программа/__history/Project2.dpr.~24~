@@ -1,0 +1,114 @@
+program Project2;
+
+{$APPTYPE CONSOLE}
+
+{$R *.res}
+
+uses
+  System.SysUtils, Math;
+
+Const
+ n=1000;
+Var
+ b:array [1..n] of integer;
+ n2:string;
+ cod, n1, i, s, a, kol, rab2, j, indmin, min, rab: integer;
+ rab1 : real;
+
+
+begin
+ rab2:=1;
+ cod:=1;
+ while rab2<>0 do                 // проверка на размерность массива
+ begin
+  repeat
+   write('Введите размерность массива N не более 1000: ');     // проверка длинны строки
+   readln(n2);
+   if length(n2)>4 then writeln('Error, please try again');
+  until length(n2)<=4 ;
+  while cod<>0 do           //  проверка дурака если вводишь символы
+   begin
+    val(n2,rab1,cod);
+    if cod<>0 then
+    begin
+     writeln('Error, please try again');
+        repeat
+         write('Введите размерность массива N не более 1000: ');          // проверка длинны строки  снова
+         readln(n2);
+         if length(n2)>4 then writeln('Error, please try again');
+        until length(n2)<=4 ;
+    end;
+   end;
+  n1:=strtoint(n2);
+  if (n1<=0) or (n1>1000) then       //проверка дурака если вводишь число 0<=n>30000
+   writeln('Error, please try again')
+  else rab2:=0;
+ end;
+
+ for i := 1 to n1 do                                   // ввод эл массива и проверка на ввод
+  begin
+   repeat
+    write('Введите ',i,' элемент массива: ');
+    readln(n2);
+    val(n2,rab1,cod);
+    if cod<>0 then writeln('Error, please try again');
+   until cod=0;
+   b[i]:=strtoint(n2);
+  end;
+
+  {randomize;
+  for i := 1 to n1 do
+    begin
+     b[i]:=random(2000)-1000;
+    end;}
+
+  writeln;
+  write('Введённый массив: ');
+ for i := 1 to n1 do
+   begin
+    write(b[i],' ');
+   end;
+
+ for i := 1 to n1-1 do
+   begin
+    min:=b[i];
+    indmin:=i;
+    if b[i]>0 then
+     begin
+     for j := i+1 to n1 do
+      begin
+       if (b[j]<b[i]) and (b[j]>0) then
+       begin
+        min:=b[j];
+        indmin:=j;
+       end;
+      end;
+      rab:=b[i];
+      b[i]:=min;
+      b[indmin]:=rab;
+     end;
+
+     if b[i]<0 then
+     begin
+       for j := i+1 to n1 do
+        begin
+          if (b[j]>b[i]) and (b[j]<0) then
+           begin
+            min:=b[j];
+            indmin:=j;
+           end;
+        end;
+      rab:=b[i];
+      b[i]:=min;
+      b[indmin]:=rab;
+     end;
+   end;
+ writeln;
+ writeln;
+ write('Полученный массив: ');
+ for i := 1 to n1 do
+   begin
+    write(b[i],' ');
+   end;
+readln;
+end.
